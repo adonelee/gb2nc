@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     strcat(out_path, path);
     strcat(out_path, "/");
     strcat(out_path, filename);
-    strcat(out_paht, ".txt");
+    strcat(out_path, ".txt");
 
     strcat(command, kw_command);
     strcat(command, fname);
