@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     char *txt_opt = "-text ";
 
     char *fname = argv[1];
-    char *filename = strrchr(fname, '.');
+    char *filename = strrchr(strrchr(fname, '.'), '/');
     char *path = argv[2];
 
     char out_path[64];
