@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     strcpy(filename, tmp);
     char *path = argv[2];  //   /home/ncdc/lee/tbin
 
-    char out_path[64];
+    char out_path[64] = "";
     strcat(out_path, path);
     strcat(out_path, "/");
     strcat(out_path, filename);
