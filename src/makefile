@@ -6,7 +6,7 @@ TARGET=g2t
 #OBJS=g2t.o t2n.o
 OBJS=g2t.o
 
-PREFIX=/home/ncdc/lee/tbin
+PREFIX=/home/ncdc/lee/tbin/
 
 $(TARGET) : $(OBJS)
 	$(CC) -o $(PREFIX)$(TARGET) $(OBJS)
