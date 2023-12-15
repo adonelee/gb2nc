@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char command[128];
+    char command[128] = "";
     char *kw_command = "kwgrib2 ";
     char *txt_opt = "-text ";
 
