@@ -5,43 +5,23 @@
 #yum install openjpeg2-tools openjpeg2-devel openjpeg2
 #yum install jasper-devel jasper-libs
 
+#kwgrib2
+tar xvf kwgrib2.tar
+cd kwgrib2
+make
+
 # HDF5
 tar zxvf hdf5-1.14.1.tar.gz
 cd hdf5-1.14.1
-./configure --prefix=${CITY_SRC}/opt/hdf5
+./configure --prefix=/home/ncdc/lee/opt/hdf5
 make
 make install
 
 # NetCDF
 tar zxvf netcdf-c-4.9.2.tar.gz
 cd netcdf-c-4.9.2
-export CPPFLAGS=-I${CITY_SRC}/opt/hdf5/include/
-export LDFLAGS=-L${CITY_SRC}/opt/hdf5/lib
- ./configure --prefix=${CITY_SRC}/opt/netcdf --enable-netcdf4 --enable-shared
+export CPPFLAGS=-I/home/ncdc/lee/opt/hdf5/include/
+export LDFLAGS=-L/home/ncdc/lee/opt/hdf5/lib
+./configure --prefix=/home/ncdc/lee/opt/netcdf --enable-netcdf4 --enable-shared --disable-libxml2
 make
 make install
-
-# ecCodes
-tar -zxf eccodes-2.18.0-Source.tar.gz
-cd eccodes-2.18.0-Source
-mkdir build
-cd build
-cmake ../eccodes-2.18.0-Source -DCMAKE_INSTALL_PREFIX=$MBRO_SRC/gts/opt/eccodes -DENABLE_FORTRAN=OFF -DNetCDF_INCLUDE_DIRS=$MBRO_SRC/gts/opt/
--- grib_to_netcdf ±¸¹® ¸ðµÎ »èÁ¦ --
-1) vi build/tools/cmake_install.cmake
-2) vi eccodes-2.18.0-Source/tools/CMakeLists.txt
-cd build
-LDFLAGS="-L$MBRO_SRC/gts/opt/netcdf/lib" CFLAGS="-I$MBRO_SRC/gts/opt/netcdf/include" make
-make install
-vi ~/.bash_profile
-##    -> Ãß°¡ : export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MBRO_HOME/worker/lib/eccodes/lib
-##
-
-#
-# È¯°æ±¸¼º
-#
-so ¶óÀÌºê·¯¸®°¡ ÇÊ¿äÇÏ¸é  $MBRO_HOME/worker/lib¿¡ º¹Á¦
-$MBRO_HOME/etc/eccodes ¿¡ share µð·ºÅä¸® º¹Á¦
-
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MBRO_HOME/worker/lib
-export ECCODES_DEFINITION_PATH=$MBRO_HOME/etc/eccodes/share/eccodes/definitions
