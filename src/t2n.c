@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
 
     fclose(data_fd);
     fclose(flag_fd);
+    printf("app end\n");
 
     return 0;
 }
