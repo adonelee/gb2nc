@@ -1,11 +1,15 @@
-#include "header.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <netcdf.h>
 
 #define IN_FILE "g128_v070_ergl_unis_h009.2023121218.nc3"
 #define OUT_FILE "g128_v070_ergl_unis_h009.2023121218.nc"
 #define VAR_LEN 107
+#define LAT_LEN 1920
+#define LON_LEN 2560
 
-char *varname[VAR_LEN] ={
-    "ACPCP_surface",
+char *varname[VAR_LEN] = {
+"ACPCP_surface",
 "APCP_surface",
 "CAPE_atmoscol",
 "CB25_HeightfromgroundKFT",
@@ -117,9 +121,8 @@ char *varname[VAR_LEN] ={
 int main() {
     int in_ncid, out_ncid;  // NetCDF file IDs
     int in_varids[VAR_LEN], out_varids[VAR_LEN];  // Variable IDs
-    int ndims, natts;  // Number of dimensions and attributes
-    int dimids[2];  // Dimension IDs
-    size_t dimlen;  // Dimension length
+    int dimids[3];  // Dimension IDs (time, latitude, longitude)
+    size_t dimlen[3];  // Dimension lengths
     nc_type vartype;  // Variable data type
     void *data[VAR_LEN];  // Data buffers for each variable
 
@@ -129,31 +132,13 @@ int main() {
         return 1;
     }
 
-    // Get information about each variable
-    for (int i = 0; i < VAR_LEN; ++i) {
-        if (nc_inq_varid(in_ncid, varname[i], &in_varids[i]) != NC_NOERR ||
-            nc_inq_var(in_ncid, in_varids[i], NULL, &vartype, &ndims, dimids, &natts) != NC_NOERR ||
-            nc_inq_dimlen(in_ncid, dimids[0], &dimlen) != NC_NOERR) {
-            fprintf(stderr, "Error getting variable information for %s.\n", varname[i]);
-            for (int j = 0; j < i; ++j) {
-                free(data[j]);
-            }
-            nc_close(in_ncid);
-            return 1;
-        }
-
-        // Allocate memory to store the data for each variable
-        data[i] = malloc(dimlen * sizeof(int));
-
-        // Read the data from the NetCDF3 file
-        if (nc_get_var(in_ncid, in_varids[i], data[i]) != NC_NOERR) {
-            fprintf(stderr, "Error reading data from NetCDF3 file for %s.\n", varname[i]);
-            for (int j = 0; j <= i; ++j) {
-                free(data[j]);
-            }
-            nc_close(in_ncid);
-            return 1;
-        }
+    // Get dimension lengths for time, latitude, and longitude
+    if (nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, "time"), &dimlen[0]) != NC_NOERR ||
+        nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, "latitude"), &dimlen[1]) != NC_NOERR ||
+        nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, "longitude"), &dimlen[2]) != NC_NOERR) {
+        fprintf(stderr, "Error getting dimension lengths.\n");
+        nc_close(in_ncid);
+        return 1;
     }
 
     // Close the NetCDF3 file
@@ -162,20 +147,36 @@ int main() {
     // Create a new NetCDF4 file
     if (nc_create(OUT_FILE, NC_NETCDF4, &out_ncid) != NC_NOERR) {
         fprintf(stderr, "Error creating NetCDF4 file.\n");
-        for (int i = 0; i < VAR_LEN; ++i) {
-            free(data[i]);
-        }
         return 1;
     }
 
-    // Define dimensions and variables in the NetCDF4 file
+    // Define dimensions in the NetCDF4 file
+    if (nc_def_dim(out_ncid, "time", dimlen[0], &dimids[0]) != NC_NOERR ||
+        nc_def_dim(out_ncid, "latitude", dimlen[1], &dimids[1]) != NC_NOERR ||
+        nc_def_dim(out_ncid, "longitude", dimlen[2], &dimids[2]) != NC_NOERR) {
+        fprintf(stderr, "Error defining dimensions in NetCDF4 file.\n");
+        nc_close(out_ncid);
+        return 1;
+    }
+
+    // Define variables in the NetCDF4 file
     for (int i = 0; i < VAR_LEN; ++i) {
-        if (nc_def_dim(out_ncid, "index", dimlen, &dimids[0]) != NC_NOERR ||
-            nc_def_var(out_ncid, varname[i], vartype, 1, dimids, &out_varids[i]) != NC_NOERR) {
-            fprintf(stderr, "Error defining dimensions and variable in NetCDF4 file for %s.\n", varname[i]);
-            for (int j = 0; j < VAR_LEN; ++j) {
-                free(data[j]);
-            }
+        if (nc_def_var(out_ncid, varname[i], NC_FLOAT, 3, dimids, &out_varids[i]) != NC_NOERR) {
+            fprintf(stderr, "Error defining variable in NetCDF4 file for %s.\n", varname[i]);
+            nc_close(out_ncid);
+            return 1;
+        }
+
+        // Allocate memory to store the data for each variable
+        data[i] = malloc(dimlen[0] * dimlen[1] * dimlen[2] * sizeof(float));
+
+        // Read the data from the NetCDF3 file
+        if (nc_open(IN_FILE, NC_NOWRITE, &in_ncid) != NC_NOERR ||
+            nc_inq_varid(in_ncid, varname[i], &in_varids[i]) != NC_NOERR ||
+            nc_get_var(in_ncid, in_varids[i], data[i]) != NC_NOERR) {
+            fprintf(stderr, "Error reading data from NetCDF3 file for %s.\n", varname[i]);
+            free(data[i]);
+            nc_close(in_ncid);
             nc_close(out_ncid);
             return 1;
         }
@@ -183,12 +184,13 @@ int main() {
         // Write the data to the NetCDF4 file
         if (nc_put_var(out_ncid, out_varids[i], data[i]) != NC_NOERR) {
             fprintf(stderr, "Error writing data to NetCDF4 file for %s.\n", varname[i]);
-            for (int j = 0; j < VAR_LEN; ++j) {
-                free(data[j]);
-            }
+            free(data[i]);
             nc_close(out_ncid);
             return 1;
         }
+
+        // Close the NetCDF3 file
+        nc_close(in_ncid);
     }
 
     // Close the NetCDF4 file
