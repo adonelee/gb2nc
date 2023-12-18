@@ -11,7 +11,7 @@ int count_lines(FILE *fd) {
     char buf;
 
     while ((buf = fgetc(fd)) != EOF) {
-        if (c=='\n') count++;
+        if (buf=='\n') count++;
     }
 
     return count;
