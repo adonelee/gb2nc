@@ -12,7 +12,7 @@ PREFIX=/home/ncdc/lee/tbin/
 INCDIR += -I/home/ncdc/lee/opt/netcdf/include
 
 #LIB 추가
-NETCDFLIB = -L/home/ncdc/lee/opt/netcdf/lib -lnetcdf
+NETCDFLIB = -L/home/ncdc/lee/opt/netcdf/lib -lnetcdf -L/home/ncdc/lee/opt/hdf5/lib -lhdf5
 
 #$(TARGET) : $(OBJS)
 #	$(CC) -o $(PREFIX)$(TARGET) $(OBJS)
