@@ -1,5 +1,5 @@
 #Makefile
-CC=gccc언어 libsz.so
+CC=gcc
 CFLAGS=-g -Wall 
 #TARGET=g2t t2n
 #TARGET=g2t
