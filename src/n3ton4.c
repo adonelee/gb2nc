@@ -133,9 +133,9 @@ int main() {
     }
 
     // Get dimension lengths for time, latitude, and longitude
-    if (nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, NULL, "time", &dimids[0]) != NC_NOERR ||
-        nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, NULL, "latitude", &dimids[1]) != NC_NOERR ||
-        nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, NULL, "longitude", &dimids[2]) != NC_NOERR) {
+    if (nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, "time", &dimids[0]), &dimlen[0]) != NC_NOERR ||
+        nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, "latitude", &dimids[1]), &dimlen[1]) != NC_NOERR ||
+        nc_inq_dimlen(in_ncid, nc_inq_dimid(in_ncid, "longitude", &dimids[2]), &dimlen[2]) != NC_NOERR) {
         fprintf(stderr, "Error getting dimension lengths.\n");
         nc_close(in_ncid);
         return 1;
