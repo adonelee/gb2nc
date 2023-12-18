@@ -1,5 +1,5 @@
 #Makefile
-CC=gcc
+CC=gccc언어 libsz.so
 CFLAGS=-g -Wall 
 #TARGET=g2t t2n
 #TARGET=g2t
@@ -24,6 +24,10 @@ g2t : g2t.c
 t2n : t2n.c 
 	$(CC) -c -o t2n.o t2n.c $(INCDIR)
 	$(CC) -o $(PREFIX)t2n t2n.o $(NETCDFLIB)
+
+n3ton4 : n3ton4.c 
+	$(CC) -c -o n3ton4.o n3ton4.c $(INCDIR)
+	$(CC) -o $(PREFIX)n3ton4 n3ton4.o $(NETCDFLIB)
 
 clean : 
 	rm -f $(TARGET) $(OBJS)
