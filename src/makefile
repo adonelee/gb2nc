@@ -14,8 +14,8 @@ INCDIR += -I/home/ncdc/lee/opt/netcdf/include
 #LIB 추가
 NETCDFLIB = -L/home/ncdc/lee/opt/netcdf/lib -lnetcdf
 
-$(TARGET) : $(OBJS)
-	$(CC) -o $(PREFIX)$(TARGET) $(OBJS)
+#$(TARGET) : $(OBJS)
+#	$(CC) -o $(PREFIX)$(TARGET) $(OBJS)
 
 g2t : g2t.c 
 	$(CC) -c -o g2t.o g2t.c $(INCDIR)
