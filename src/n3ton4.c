@@ -126,9 +126,12 @@ int main() {
     nc_type vartype;  // Variable data type
     void *data[VAR_LEN];  // Data buffers for each variable
 
+    int ret;
+    ret = nc_open(IN_FILE, NC_NOWRITE, &in_ncid);
     // Open the existing NetCDF3 file
-    if (nc_open(IN_FILE, NC_NOWRITE, &in_ncid) != NC_NOERR) {
+    if (ret != NC_NOERR) {
         fprintf(stderr, "Error opening NetCDF3 file.\n");
+        fprintf(stderr, "ERROR MSG : %s\n", nc_strerror(ret));
         return 1;
     }
 
