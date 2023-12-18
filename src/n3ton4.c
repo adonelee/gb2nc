@@ -127,8 +127,8 @@ int main() {
     void *data[VAR_LEN];  // Data buffers for each variable
 
     int ret;
-    ret = nc_open(IN_FILE, NC_NOWRITE, &in_ncid);
     // Open the existing NetCDF3 file
+    ret = nc_open(IN_FILE, NC_NOWRITE, &in_ncid);
     if (ret != NC_NOERR) {
         fprintf(stderr, "Error opening NetCDF3 file.\n");
         fprintf(stderr, "ERROR MSG : %s\n", nc_strerror(ret));
@@ -148,8 +148,10 @@ int main() {
     nc_close(in_ncid);
 
     // Create a new NetCDF4 file
-    if (nc_create(OUT_FILE, NC_NETCDF4, &out_ncid) != NC_NOERR) {
+    ret = nc_create(OUT_FILE, NC_NETCDF4, &out_ncid);
+    if (ret != NC_NOERR) {
         fprintf(stderr, "Error creating NetCDF4 file.\n");
+        fprintf(stderr, "ERROR MSG : %s\n", nc_strerror(ret));
         return 1;
     }
 
