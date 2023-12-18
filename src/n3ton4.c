@@ -112,7 +112,7 @@ char *varname[VAR_LEN] ={
 "XGWSS_20maboveground",
 "YBLWS_20maboveground",
 "YGWSS_20maboveground"
-}
+};
 
 int main() {
     int in_ncid, out_ncid;  // NetCDF file IDs
