@@ -17,6 +17,18 @@ NETCDFLIB = -L/home/ncdc/lee/opt/netcdf/lib -lnetcdf -L/home/ncdc/lee/opt/hdf5/l
 #$(TARGET) : $(OBJS)
 #	$(CC) -o $(PREFIX)$(TARGET) $(OBJS)
 
+g2t : g2t.c 
+	$(CC) -c -o g2t.o g2t.c $(INCDIR)
+	$(CC) -o $(PREFIX)g2t g2t.o $(NETCDFLIB)
+
+t2n : t2n.c 
+	$(CC) -c -o t2n.o t2n.c $(INCDIR)
+	$(CC) -o $(PREFIX)t2n t2n.o $(NETCDFLIB)
+
+n3ton4 : n3ton4.c 
+	$(CC) -c -o n3ton4.o n3ton4.c $(INCDIR)
+	$(CC) -o $(PREFIX)n3ton4 n3ton4.o $(NETCDFLIB)
+
 gb2nc4 : gb2nc4.c 
 	$(CC) -c -o gb2nc4.o gb2nc4.c $(INCDIR)
 	$(CC) -o $(PREFIX)gb2nc4 gb2nc4.o $(NETCDFLIB)

@@ -1,14 +1,9 @@
 ##########################################################
-# install netcdf library
+# install library
 ##########################################################
 
 #yum install openjpeg2-tools openjpeg2-devel openjpeg2
 #yum install jasper-devel jasper-libs
-
-#kwgrib2
-tar xvf kwgrib2.tar
-cd kwgrib2
-make
 
 # HDF5
 tar zxvf hdf5-1.14.1.tar.gz
@@ -25,3 +20,49 @@ export LDFLAGS=-L/home/ncdc/lee/opt/hdf5/lib
 ./configure --prefix=/home/ncdc/lee/opt/netcdf --enable-netcdf4 --enable-shared --disable-libxml2
 make
 make install
+
+
+#kwgrib2
+tar xvf kwgrib2
+cd kwgrib2
+vi makefile
+
+(59) export FC=gfortran
+
+(79) USE_NETCDF3=0
+(80) USE_NETCDF4=1
+(90) bindir=/home/ncdc/lee/bin #실행파일 저장 경로
+
+(187)   n4:=/home/ncdc/lee/opt/netcdf          #NetCDF 라이브러리 경로
+(188)   n4lib:=/home/ncdc/lee/opt/netcdf/lib   #NetCDF 라이브러리 내 lib 디렉토리 경로
+(189)   h5:=/home/ncdc/lee/opt/hdf5            #HDF5 라이브러리 경로
+(190)   h5lib:=${h5}/lib                       #HDF5 라이브러리 내 lib 디렉토리 경로
+#   wLDFLAGS+=-L${n4}/libsrc/.libs -lnetcdf
+(192)   wLDFLAGS+=-L${n4lib} -lnetcdf -L${h5lib} -lhdf5_hl -L${h5lib} -lhdf5    #NetCDF, HDF5 라이브러리 장착
+(193)   wCPPFLAGS+=-I${n4}/include             #NetCDF 헤더 장착
+
+# 라이브러리 생성 코드
+# 미리 라이브러리를 생성해두었으므로 생략(주석처리)
+(402)${n4lib}:       ${zlib} ${h5lib}
+(403)        #mkdir -p ${cwd}/zlib/include
+(404)        #mkdir -p ${cwd}/zlib/lib
+(405)        #cp ${z}/*.h ${cwd}/zlib/include/
+(406)        #cp ${z}/*.a ${cwd}/zlib/lib/
+(407)
+(408)        #mkdir -p ${cwd}/hdf5/include
+(409)        #cp  ${h5}/src/*.h ${h5}/hl/src/*.h ${cwd}/hdf5/include
+(410)        #mkdir -p ${cwd}/hdf5/lib
+(411)        #cp ${h5}/src/.libs/*a ${h5}/hl/src/.libs/*a ${cwd}/hdf5/lib/
+(412)
+(413)        #cp ${n4}.tar.gz tmpn.tar.gz
+(414)        #gunzip -f tmpn.tar.gz
+(415)        #tar -xvf tmpn.tar
+(416)        #rm tmpn.tar
+(417)        #cd ${n4} && export CPPFLAGS="${wCPPFLAGS}" && ./configure --disable-fortran --disable-cxx --disable-dap --enable-netcdf-4 --with-zlib=${cwd}/zlib --with-hdf5=${cwd}/hdf5 && ${MAKE}
+
+(419)${h5lib}:
+(421)        #cp ${h5}.tar.gz tmph5.tar.gz
+(422)        #gunzip -f tmph5.tar.gz
+(423)        #tar -xvf tmph5.tar
+(424)        #rm tmph5.tar
+(425)        #cd ${h5} && export CPPFLAGS="${CPPFLAGS}" && ./configure --disable-shared --disable-fortran --with-zlib=$z && ${MAKE} && ${MAKE}
