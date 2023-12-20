@@ -37,7 +37,7 @@ char *remove_file_extension(char *file) {
 }
 
 char *remove_file_path(char *fname) {
-    char *buf = strrchr(buf, '/');
+    char *buf = strrchr(fname, '/');
     if (buf == NULL) {
         return NULL;
     }
