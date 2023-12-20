@@ -37,18 +37,11 @@ char *remove_file_extension(char *file) {
 }
 
 char *remove_file_path(char *fname) {
-    char *buf;
-    buf = (char *)malloc(sizeof(char) * 64);
-    memset(buf, 0, sizeof(char) * 64);
-    strcpy(buf, fname);
-
-    buf = strrchr(buf, '/');
+    char *buf = strrchr(buf, '/');
     if (buf == NULL) {
         return NULL;
     }
-    buf++;
-
-    return buf;
+    return strdup(buf + 1);
 }
 
 #endif

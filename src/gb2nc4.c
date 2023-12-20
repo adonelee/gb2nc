@@ -3,9 +3,8 @@
 char *set_outpath(char *path, char *filename) {
     char *buf;
     buf = (char *)malloc(sizeof(char) * 64);
-    memset(buf, 0, sizeof(char) * 64);
 
-    strcat(buf, path);
+    strcpy(buf, path);
     strcat(buf, filename);
     strcat(buf, ".nc"); 
 
@@ -15,12 +14,10 @@ char *set_outpath(char *path, char *filename) {
 char *set_gb2tonc4_command(char *fname, char *filename, char *out_path) {
     char *buf;
     buf = (char *)malloc(sizeof(char) * 256);
-    memset(buf, 0, sizeof(char) * 256);
 
-    strcat(buf, "kwgrib2 -nc4 ");
+    strcpy(buf, "kwgrib2 -nc4 ");
     strcat(buf, fname);
-    strcat(buf, " ");
-    strcat(buf, "-netcdf ");
+    strcat(buf, " -netcdf ");
     strcat(buf, out_path);
     strcat(buf, " > /home/ncdc/lee/tbin/");
     strcat(buf, filename);
@@ -67,7 +64,7 @@ int main(int argc, char *argv[]) {
     /* execute system command */
     system(command);
     
-    free(--file);
+    free(file);
     printf("free(file);");
     free(filename);
     printf("free(filename);");
