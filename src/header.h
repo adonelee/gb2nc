@@ -28,7 +28,7 @@ char *remove_file_extension(char *file) {
     /*remove extension*/
     char *dot = strrchr(buf, '.');
     if (dot == NULL) {
-        printf("file has no extonstion\n");
+        printf("file has no extension\n");
     } else {
         *dot = '\0';
     }
@@ -40,8 +40,9 @@ char *remove_file_path(char *fname) {
     char *buf;
     buf = (char *)malloc(sizeof(char) * 64);
     memset(buf, 0, sizeof(char) * 64);
+    strcpy(buf, fname);
 
-    buf = strrchr(fname, '/');
+    buf = strrchr(buf, '/');
     if (buf == NULL) {
         return NULL;
     }
