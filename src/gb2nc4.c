@@ -1,7 +1,7 @@
 #include "header.h"
 
 char *set_outpath(char *path, char *filename) {
-    char buf;
+    char *buf;
     buf = (char *)malloc(sizeof(char) * 64);
     memset(buf, 0, sizeof(char) * 64);
 
@@ -13,7 +13,7 @@ char *set_outpath(char *path, char *filename) {
 }
 
 char *set_gb2tonc4_command(char *fname, char *filename, char *out_path) {
-    char buf;
+    char *buf;
     buf = (char *)malloc(sizeof(char) * 256);
     memset(buf, 0, sizeof(char) * 256);
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     file = remove_file_path(fname);
     if (file == NULL) {
         printf("not absolute path\n");
-        printf("Usage : gb2nc4 [gb2 file abs path] [savd path]");
+        printf("Usage : gb2nc4 [gb2 file abs path] [savd path]\n");
         return 1;
     }
     filename = remove_file_extension(file);
