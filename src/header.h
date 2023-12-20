@@ -20,7 +20,7 @@ int count_lines(FILE *fd) {
 
 char *remove_file_extention(char *file) {
     char *buf;
-    buf = (char *)malloc(sizeof(char * 64));
+    buf = (char *)malloc(sizeof(char) * 64);
     memset(buf, 0, sizeof(char) * 64);
 
     strcpy(buf, file);
@@ -38,7 +38,7 @@ char *remove_file_extention(char *file) {
 
 char *remove_file_path(char *fname) {
     char *buf;
-    buf = (char *)malloc(sizeof(char * 64));
+    buf = (char *)malloc(sizeof(char) * 64);
     memset(buf, 0, sizeof(char) * 64);
 
     buf = strrchr(fname, '/');
