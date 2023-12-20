@@ -3,7 +3,7 @@
 char *set_outpath(char *path, char *filename) {
     char buf;
     buf = (char *)malloc(sizeof(char * 64));
-    memset(buf, sizeof(char) * 64);
+    memset(buf, 0, sizeof(char) * 64);
 
     strcat(buf, path);
     strcat(buf, filename);
@@ -15,7 +15,7 @@ char *set_outpath(char *path, char *filename) {
 char *set_gb2tonc4_command(char *fname, char *filename, char *out_path) {
     char buf;
     buf = (char *)malloc(sizeof(char * 256));
-    memset(buf, sizeof(char) * 256);
+    memset(buf, 0, sizeof(char) * 256);
 
     strcat(buf, "kwgrib2 -nc4 ");
     strcat(buf, fname);
