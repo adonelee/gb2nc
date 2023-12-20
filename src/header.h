@@ -18,7 +18,7 @@ int count_lines(FILE *fd) {
 }
 
 
-char *remove_file_extention(char *file) {
+char *remove_file_extension(char *file) {
     char *buf;
     buf = (char *)malloc(sizeof(char) * 64);
     memset(buf, 0, sizeof(char) * 64);
