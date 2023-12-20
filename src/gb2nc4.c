@@ -49,6 +49,11 @@ int main(int argc, char *argv[]) {
     /* set file attributes */
     fname = argv[1];
     file = remove_file_path(fanme);
+    if (file == NULL) {
+        printf("not absolute path\n");
+        printf("Usage : gb2nc4 [gb2 file abs path] [savd path]");
+        return 1;
+    }
     filename = remove_file_extension(file);
     
     /* set out path and output name */
