@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     /* execute system command */
     system(command);
     
-    free(file);
+    free(--file);
     printf("free(file);");
     free(filename);
     printf("free(filename);");
