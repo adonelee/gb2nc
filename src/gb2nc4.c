@@ -20,7 +20,7 @@ char *set_gb2tonc4_command(char *fname, char *filename, char *out_path) {
     strcat(buf, "kwgrib2 -nc4 ");
     strcat(buf, fname);
     strcat(buf, " ");
-    strcat(buf, "-netcdf");
+    strcat(buf, "-netcdf ");
     strcat(buf, out_path);
     strcat(buf, " > /home/ncdc/lee/tbin/");
     strcat(buf, filename);
