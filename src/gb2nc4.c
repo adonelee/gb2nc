@@ -65,13 +65,9 @@ int main(int argc, char *argv[]) {
     system(command);
     
     free(file);
-    printf("free(file);");
     free(filename);
-    printf("free(filename);");
     free(out_path);
-    printf("free(out_path);");
     free(command);
-    printf("free(command);");
     
     printf("app finish\n");
     return 0;
