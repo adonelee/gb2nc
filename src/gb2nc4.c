@@ -70,6 +70,7 @@ int main(int argc, char *argv[]) {
     free(out_path);
     free(command);
     
+    t = time(NULL);
     printf("app finish(#%d) : %s", getpid(), ctime(&t));
     return 0;
 }
