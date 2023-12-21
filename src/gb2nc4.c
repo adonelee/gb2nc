@@ -27,7 +27,8 @@ char *set_gb2tonc4_command(char *fname, char *filename, char *out_path) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("app start\n");
+    time_t t = time(NULL);
+    printf("app start(#%d)[%s]\n", getpid(), ctime(&t));
     
     if (argc != 3) {
         printf("Usage : gb2nc4 [gb2 file abs path] [savd path]");
@@ -69,6 +70,6 @@ int main(int argc, char *argv[]) {
     free(out_path);
     free(command);
     
-    printf("app finish\n");
+    printf("app finish(#%d)[%s]\n", getpid(), ctime(&t));
     return 0;
 }
