@@ -8,6 +8,7 @@
 #include <time.h>
 
 #include <netcdf.h>
+#include <eccodes.h>
 
 int count_lines(FILE *fd) {
     int count = 0;
